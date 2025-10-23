@@ -1,0 +1,150 @@
+REVIEWER: Cross-cutting product QA for request/response alignment and runtime stability
+
+Context Summary:
+{
+  "projectId": "eco3",
+  "lastAccessed": "2025-10-23T05:26:02.231Z",
+  "validationAttempts": 0,
+  "commonIssues": [],
+  "resolvedIssues": [],
+  "dependencies": [],
+  "missingDependencies": [],
+  "knownFileCount": 0,
+  "keyFindings": []
+}
+
+Project Structure:
+FULL PROJECT STRUCTURE CONTEXT for Agent:
+=====================================
+
+Working Directory: /app
+
+PROJECT DIRECTORIES:
+/app
+/app/.git
+/app/.git/info
+/app/.git/hooks
+/app/.git/branches
+/app/.git/refs
+/app/.git/refs/heads
+/app/.git/refs/tags
+/app/.git/refs/remotes
+/app/.git/objects
+/app/.git/objects/pack
+/app/.git/objects/info
+/app/.git/logs
+/app/.git/logs/refs
+/app/backend
+/app/exports
+/app/vitereact
+/app/vitereact/src
+/app/vitereact/src/assets
+/app/vitereact/src/components
+
+
+KEY PROJECT FILES:
+/app/README.md
+/app/backend/initdb.js
+/app/backend/jest.config.ts
+/app/backend/package-lock.json
+/app/backend/package.json
+/app/backend/schema.ts
+/app/backend/server.test.ts
+/app/backend/server.ts
+/app/backend/tsconfig.json
+/app/exports/1761195393335.json
+/app/exports/1761195479329.json
+/app/exports/1761195514685.json
+/app/exports/1761195575901.json
+/app/exports/1761195757119.json
+/app/exports/1761195780433.json
+/app/exports/1761195820129.json
+/app/exports/1761195822012.json
+/app/exports/1761195904186.json
+/app/exports/1761195904557.json
+/app/exports/1761195906726.json
+/app/exports/1761195996554.json
+/app/exports/1761195996571.json
+/app/exports/1761196098692.json
+/app/exports/1761196098739.json
+/app/exports/1761196101136.json
+/app/exports/1761196128744.json
+/app/exports/1761196129143.json
+/app/exports/1761196130478.json
+/app/exports/1761196142779.json
+/app/exports/1761196142834.json
+/app/exports/1761196144563.json
+/app/exports/1761196152708.json
+/app/exports/1761196153104.json
+/app/exports/1761196154070.json
+/app/exports/1761196186036.json
+/app/exports/1761196186450.json
+/app/exports/1761196188287.json
+/app/exports/1761196224712.json
+/app/exports/1761196224787.json
+/app/exports/1761196225722.json
+/app/exports/1761196230623.json
+/app/exports/1761196230648.json
+/app/exports/1761196231550.json
+/app/exports/1761196252772.json
+/app/exports/1761196252782.json
+/app/exports/1761196275292.json
+/app/exports/1761196275302.json
+/app/exports/1761196276374.json
+/app/exports/1761196568522.json
+/app/exports/1761196568534.json
+
+
+FRONTEND (vitereact) PACKAGE.JSON:
+  Scripts: dev, build, lint, preview
+  Dependencies: 69 packages
+  DevDependencies: 16 packages
+  Key Dependencies: @hookform/resolvers, @radix-ui/react-accordion, @radix-ui/react-alert-dialog, @radix-ui/react-aspect-ratio, @radix-ui/react-avatar, @radix-ui/react-checkbox, @radix-ui/react-collapsible, @radix-ui/react-context-menu, @radix-ui/react-dialog, @radix-ui/react-dropdown-menu
+
+BACKEND PACKAGE.JSON:
+  Scripts: start, build, dev, test, test:watch, test:coverage
+  Dependencies: 13 packages
+  Key Dependencies: @electric-sql/pglite, @types/bcryptjs, bcryptjs, cors, dotenv, express, jsonwebtoken, morgan, pg, ts-node
+
+ROOT PACKAGE.JSON:
+  Scripts: dev
+
+BACKEND SCHEMA AVAILABLE:
+  Location: /app/backend/schema.ts
+  Size: 4923 characters
+  Contains Zod schemas for type validation
+
+BACKEND SERVER AVAILABLE:
+  Location: /app/backend/server.ts
+  Size: 34810 characters
+  Contains actual API endpoints and implementations
+
+PROTECTED DIRECTORIES (DO NOT MODIFY):
+  - /app/vitereact/src/components/ui/** (UI library)
+  - /app/node_modules/** (Dependencies)
+  - /app/.git/** (Version control)
+
+
+
+Your tasks:
+1) Verify frontend->backend API request/response contracts match (paths, params, types). Fix mismatches (frontend or backend).
+2) Detect and fix infinite loops/re-renders in React components (useEffect deps, React query, state mutations during render, runaway timers, polling without guards).
+3) Detect and fix potential runtime/compile errors that cause blank/white screens (missing imports, undefined props/state, bad keys, invalid JSX, vite aliases, tsconfig paths, circular imports).
+4) Ensure the SPA renders without console errors and key pages load.
+5) For backend, coerce query params where appropriate (limit, offset, booleans) and relax/ default non-critical fields (e.g., search-history) to prevent 400s.
+6) Test backend API endpoints with curl commands - verify server responds correctly and data matches frontend expectations:
+   - Health check: curl -s http://localhost:3000/api/health
+   - Auth endpoints: curl -X POST -H "Content-Type: application/json" -d '{"email":"test@example.com","password":"test123"}' http://localhost:3000/api/auth/login
+   - GET endpoints: curl http://localhost:3000/api/users (or similar data endpoints)
+   - Verify responses match frontend data structure expectations and db.sql schema
+7) Test database connectivity and validate that API responses align with database schema in db.sql file.
+8) Compare actual API response structures (from curl tests) with frontend data fetching code to ensure compatibility.
+
+Important:
+- Make minimal, targeted edits. Prefer z.coerce.number()/boolean() and sensible defaults over hard failures.
+- Keep APIs under /api; static SPA via backend if configured.
+- Use curl commands to test actual backend functionality before validating frontend integration.
+- Fix any mismatches between database schema, backend responses, and frontend expectations.
+- Output the code edits directly.
+- Don't delete api endpoints
+
