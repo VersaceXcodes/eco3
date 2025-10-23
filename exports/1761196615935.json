@@ -1,0 +1,15 @@
+{
+  "timestamp": 1761196615935,
+  "operation": {
+    "id": "settings:config:package"
+  },
+  "projectId": "eco3",
+  "files": [
+    {
+      "path": "/mnt/data/eco3/vitereact/package.json",
+      "type": "text",
+      "size": 3176,
+      "dependencies": true
+    }
+  ]
+}

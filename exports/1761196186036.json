@@ -1,0 +1,19 @@
+{
+  "timestamp": 1761196186036,
+  "operation": {
+    "id": "webapp:react:views",
+    "refs": {
+      "id": "UV_SignUp",
+      "version": "latest"
+    }
+  },
+  "projectId": "eco3",
+  "files": [
+    {
+      "path": "/mnt/data/eco3/vitereact/src/components/views/UV_SignUp.tsx",
+      "type": "text",
+      "size": 11540,
+      "dependencies": false
+    }
+  ]
+}

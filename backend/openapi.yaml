@@ -1,0 +1,869 @@
+|-
+```yaml
+openapi: 3.0.0
+info:
+  title: eco3 API
+  description: User-facing API for eco3 - Empower Your Eco-Journey
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+    description: Development server
+
+components:
+  schemas:
+    # User Schemas
+    UserEntity:
+      type: object
+      required: [id, email, created_at]
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password_hash:
+          type: string
+        full_name:
+          type: string
+          nullable: true
+        profile_image_url:
+          type: string
+          format: uri
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+
+    CreateUserInput:
+      type: object
+      required: [username, email, password_hash]
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password_hash:
+          type: string
+        full_name:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        profile_image_url:
+          type: string
+          format: uri
+          nullable: true
+          allowableValues: [null]
+
+    UpdateUserInput:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password_hash:
+          type: string
+        full_name:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        profile_image_url:
+          type: string
+          format: uri
+          nullable: true
+          allowableValues: [null]
+
+    SearchUserInput:
+      type: object
+      properties:
+        query:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        offset:
+          type: integer
+          minimum: 0
+          default: 0
+        sort_by:
+          type: string
+          enum: [username, email, full_name, created_at]
+          default: created_at
+        sort_order:
+          type: string
+          enum: [asc, desc]
+          default: desc
+
+    # Post Schemas
+    PostEntity:
+      type: object
+      required: [id, user_id, title, created_at]
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+          nullable: true
+        image_url:
+          type: string
+          format: uri
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+
+    CreatePostInput:
+      type: object
+      required: [user_id, title]
+      properties:
+        user_id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        image_url:
+          type: string
+          format: uri
+          nullable: true
+          allowableValues: [null]
+
+    UpdatePostInput:
+      type: object
+      properties:
+        user_id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        image_url:
+          type: string
+          format: uri
+          nullable: true
+          allowableValues: [null]
+
+    SearchPostInput:
+      type: object
+      properties:
+        query:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        user_id:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        offset:
+          type: integer
+          minimum: 0
+          default: 0
+        sort_by:
+          type: string
+          enum: [title, created_at]
+          default: created_at
+        sort_order:
+          type: string
+          enum: [asc, desc]
+          default: desc
+
+    # Comment Schemas
+    CommentEntity:
+      type: object
+      required: [id, user_id, post_id, content, created_at]
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        post_id:
+          type: string
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    CreateCommentInput:
+      type: object
+      required: [user_id, post_id, content]
+      properties:
+        user_id:
+          type: string
+        post_id:
+          type: string
+        content:
+          type: string
+
+    UpdateCommentInput:
+      type: object
+      properties:
+        user_id:
+          type: string
+        post_id:
+          type: string
+        content:
+          type: string
+          nullable: true
+          allowableValues: [null]
+
+    SearchCommentInput:
+      type: object
+      properties:
+        query:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        user_id:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        post_id:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        offset:
+          type: integer
+          minimum: 0
+          default: 0
+        sort_by:
+          type: string
+          enum: [content, created_at]
+          default: created_at
+        sort_order:
+          type: string
+          enum: [asc, desc]
+          default: desc
+
+    # Like Schemas
+    LikeEntity:
+      type: object
+      required: [user_id, post_id, created_at]
+      properties:
+        user_id:
+          type: string
+        post_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    CreateLikeInput:
+      type: object
+      required: [user_id, post_id]
+      properties:
+        user_id:
+          type: string
+        post_id:
+          type: string
+
+    UpdateLikeInput:
+      type: object
+      required: [user_id, post_id]
+      properties:
+        user_id:
+          type: string
+        post_id:
+          type: string
+
+    SearchLikeInput:
+      type: object
+      properties:
+        user_id:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        post_id:
+          type: string
+          nullable: true
+          allowableValues: [null]
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        offset:
+          type: integer
+          minimum: 0
+          default: 0
+        sort_by:
+          type: string
+          enum: [created_at]
+          default: created_at
+        sort_order:
+          type: string
+          enum: [asc, desc]
+          default: desc
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: Bearer
+      bearerFormat: JWT
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/UserEntity'
+                  auth_token:
+                    type: string
+        '400':
+          description: Validation error
+
+  /auth/login:
+    post:
+      summary: Authenticate user
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password_hash]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password_hash:
+                  type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/UserEntity'
+                  auth_token:
+                    type: string
+        '401':
+          description: Unauthorized
+
+  /users:
+    get:
+      summary: List users with search parameters
+      operationId: listUsers
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+          nullable: true
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [username, email, full_name, created_at]
+            default: created_at
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserEntity'
+
+    post:
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+        '400':
+          description: Validation error
+
+  /users/{user_id}:
+    get:
+      summary: Retrieve a user by ID
+      operationId: getUserById
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+        '404':
+          description: Not found
+
+    put:
+      summary: Update a user
+      operationId: updateUser
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+        '400':
+          description: Validation error
+        '404':
+          description: Not found
+
+    delete:
+      summary: Delete a user
+      operationId: deleteUser
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not found
+
+  /posts:
+    get:
+      summary: List posts with search parameters
+      operationId: listPosts
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+          nullable: true
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          nullable: true
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: sort_by:
+          in: query
+          schema:
+            type: string
+            enum: [title, created_at]
+            default: created_at
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostEntity'
+
+    post:
+      summary: Create a new post
+      operationId: createPost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostEntity'
+        '400':
+          description: Validation error
+
+  /posts/{post_id}:
+    get:
+      summary: Retrieve a post by ID
+      operationId: getPostById
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostEntity'
+        '404':
+          description: Not found
+
+    put:
+      summary: Update a post
+      operationId: updatePost
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePostInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostEntity'
+        '400':
+          description: Validation error
+        '404':
+          description: Not found
+
+    delete:
+      summary: Delete a post
+      operationId: deletePost
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not found
+
+  /comments:
+    get:
+      summary: List comments with search parameters
+      operationId: listComments
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+          nullable: true
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          nullable: true
+        - name: post_id
+          in: query
+          schema:
+            type: string
+          nullable: true
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [content, created_at]
+            default: created_at
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentEntity'
+
+    post:
+      summary: Create a new comment
+      operationId: createComment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommentInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentEntity'
+        '400':
+          description: Validation error
+
+  /comments/{comment_id}:
+    get:
+      summary: Retrieve a comment by ID
+      operationId: getCommentById
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentEntity'
+        '404':
+          description: Not found
+
+    put:
+      summary: Update a comment
+      operationId: updateComment
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCommentInput'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentEntity'
+        '400':
+          description: Validation error
+        '404':
+          description: Not found
+
+    delete:
+      summary: Delete a comment
+      operationId: deleteComment
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not found
+
+  /likes:
+    get:
+      summary: List likes with search parameters
+      operationId: listLikes
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          nullable: true
+        - name: post_id
+          in: query
+          schema:
+            type: string
+          nullable: true
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [created_at]
+            default: created_at
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LikeEntity'
+
+    post:
+      summary: Create a new like
+      operationId: createLike
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLikeInput'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikeEntity'
+        '400':
+          description: Validation error
+
+  /likes/{user_id}/{post_id}:
+    delete:
+      summary: Delete a like
+      operationId: deleteLike
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Not found

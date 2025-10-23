@@ -1,0 +1,19 @@
+{
+  "timestamp": 1761196568534,
+  "operation": {
+    "id": "webapp:react:views",
+    "refs": {
+      "id": "GV_ToastNotifications",
+      "version": "latest"
+    }
+  },
+  "projectId": "eco3",
+  "files": [
+    {
+      "path": "/mnt/data/eco3/vitereact/src/components/views/GV_ToastNotifications.tsx",
+      "type": "text",
+      "size": 1738,
+      "dependencies": false
+    }
+  ]
+}

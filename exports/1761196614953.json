@@ -1,0 +1,19 @@
+{
+  "timestamp": 1761196614953,
+  "operation": {
+    "id": "webapp:react:views",
+    "refs": {
+      "id": "UV_Dashboard",
+      "version": "latest"
+    }
+  },
+  "projectId": "eco3",
+  "files": [
+    {
+      "path": "/mnt/data/eco3/vitereact/src/components/views/UV_Dashboard.tsx",
+      "type": "text",
+      "size": 15544,
+      "dependencies": false
+    }
+  ]
+}

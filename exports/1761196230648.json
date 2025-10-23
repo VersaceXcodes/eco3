@@ -1,0 +1,19 @@
+{
+  "timestamp": 1761196230648,
+  "operation": {
+    "id": "webapp:react:views",
+    "refs": {
+      "id": "UV_Notifications_Center",
+      "version": "1761195997646"
+    }
+  },
+  "projectId": "eco3",
+  "files": [
+    {
+      "path": "/mnt/data/eco3/vitereact/src/components/views/UV_Notifications_Center.tsx",
+      "type": "text",
+      "size": 8211,
+      "dependencies": false
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "timestamp": 1761195479329,
+  "operation": {
+    "id": "db:schemas:zod"
+  },
+  "projectId": "eco3",
+  "files": [
+    {
+      "path": "/mnt/data/eco3/backend/schema.ts",
+      "type": "text",
+      "size": 4923,
+      "dependencies": false
+    }
+  ]
+}

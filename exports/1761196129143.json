@@ -1,0 +1,19 @@
+{
+  "timestamp": 1761196129143,
+  "operation": {
+    "id": "webapp:react:views",
+    "refs": {
+      "id": "UV_Login",
+      "version": "1761195997527"
+    }
+  },
+  "projectId": "eco3",
+  "files": [
+    {
+      "path": "/mnt/data/eco3/vitereact/src/components/views/UV_Login.tsx",
+      "type": "text",
+      "size": 163,
+      "dependencies": false
+    }
+  ]
+}

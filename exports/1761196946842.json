@@ -1,0 +1,19 @@
+{
+  "timestamp": 1761196946842,
+  "operation": {
+    "id": "webapp:react:views",
+    "refs": {
+      "id": "GV_Modals",
+      "version": "1761196896449"
+    }
+  },
+  "projectId": "eco3",
+  "files": [
+    {
+      "path": "/mnt/data/eco3/vitereact/src/components/views/GV_Modals.tsx",
+      "type": "text",
+      "size": 11250,
+      "dependencies": false
+    }
+  ]
+}
